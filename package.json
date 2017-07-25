@@ -1,0 +1,31 @@
+{
+  "name": "basic-mongoose",
+  "version": "1.0.0",
+  "description": "<img src=\"https://cloud.githubusercontent.com/assets/478864/22186847/68223ce6-e0b1-11e6-8a62-0e3edc96725e.png\" width=30> Mongoose Models\r ===",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "npm test -- -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jchurchman/basic-mongoose.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jchurchman/basic-mongoose/issues"
+  },
+  "homepage": "https://github.com/jchurchman/basic-mongoose#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mongoose": "^4.11.4"
+  },
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "eslint": "^4.3.0",
+    "mocha": "^3.4.2"
+  }
+}

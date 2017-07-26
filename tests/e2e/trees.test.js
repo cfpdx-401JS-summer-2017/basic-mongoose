@@ -15,34 +15,25 @@ describe('trees REST API works', () => {
     before(() => connection.dropDatabase());
 
     const pine = {
-        variety: 'pine',
+        variety: 'Pine',
         type: 'coniferous',
-        location: [
-            { current: 'Portland', past: [] }
-        ]
+        locations: ['Portland']
     };
 
     const aspen = {
         variety: 'Aspen',
         type: 'deciduous',
-        location: [
-            { current: 'Portland', past: [{ previous: 'Eugene' }, { others: 'Bend' }]}
-        ]
+        locations: ['Portland', 'Bend']
     };
 
     const maple = {
         variety: 'Maple',
         type: 'deciduous',
-        location: [
-            {
-                current: 'Kyoto', 
-                past: [{ previous: 'Yokohama' }]
-            }
-        ],
-        age: [{
+        locations: ['Kyoto', 'Yokohama'],
+        ageEstimate: {
             min: 50,
             max: 75
-        }]
+        }
     };
 
     function saveTree(tree) {
@@ -51,8 +42,6 @@ describe('trees REST API works', () => {
             .then(({ body }) => {
                 tree._id = body._id;
                 tree.__v = body.__v;
-                tree.age = body.age;
-                tree.location[0]._id = body.location[0]._id;
                 return tree;
             });
     }
@@ -86,14 +75,17 @@ describe('trees REST API works', () => {
 
     it('gets all trees', () => {
         return Promise.all([
-            saveTree(pine),
             saveTree(aspen),
             saveTree(maple)
         ])
             .then(() => request.get('/trees'))
             .then(res => {
-                const trees = res.body;
-                assert.deepEqual(trees, [pine, aspen, maple]);
+                const trees = res.body.sort((a,b) => {
+                    if(a.variety > b.variety) return 1;
+                    else if (a.variety < b.variety) return -1;
+                    else return 0;
+                });
+                assert.deepEqual(trees, [aspen, maple, pine]);
             });
     });
 });

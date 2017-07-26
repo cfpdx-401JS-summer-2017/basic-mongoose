@@ -34,10 +34,10 @@ describe('beer', () => {
         const beer = new Beer();
         return beer.validate()
             .then(() => { throw new Error('expected validation error'); },
-            ({errors}) => {
-                assert.ok(errors.name);
-                assert.ok(errors.style);
-            });
+                ({ errors }) => {
+                    assert.ok(errors.name);
+                    assert.ok(errors.style);
+                });
     });
     
     it('beer.style must be of enum type', () => {

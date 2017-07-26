@@ -115,7 +115,13 @@ describe('beers REST api', () => {
             });
     });
 
-    
+    it('deletes a beer from the db', () => {
+        return request.delete(`/beers/${soPale._id}`)
+            .then(res => {
+                const message = JSON.parse(res.text);
+                assert.deepEqual(message, { removed: true });
+            });
+    });
 });
 
 

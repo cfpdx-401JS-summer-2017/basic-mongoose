@@ -1,5 +1,4 @@
 const http = require('http');
-//this will cause mongoose to make the db connection
 require('./lib/connect');
 const app = require('./lib/app');
 

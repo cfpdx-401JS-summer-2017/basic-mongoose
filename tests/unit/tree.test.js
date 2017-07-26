@@ -44,3 +44,6 @@ describe('Tree model', () => {
             });
     });
 });
+
+// add tests for location - current required
+// add test for age

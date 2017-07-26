@@ -104,8 +104,21 @@ describe('otter REST api', () => {
                 const otters = res.body;
                 assert.equal(otters[2].name, sonja.name);
                 assert.equal(otters[1].type, juju.type);
-                console.log(otters);
                 assert.equal(otters[0].color, benjamin.color);
             });
     });
+
+    it('Replaces otter content', () => {
+        const rebecca = { name: 'Rebecca', type: 'space'};
+        return request
+            .put(`/otters/${benjamin._id}`)
+            .send(rebecca)
+            .then(res => res.body)
+            .then(otter => {
+                assert.equal(otter.name, rebecca.name);
+                assert.equal(otter.type, rebecca.type);
+            });
+    });
+
+    
 });

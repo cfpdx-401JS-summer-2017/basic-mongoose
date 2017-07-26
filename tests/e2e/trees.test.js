@@ -88,4 +88,14 @@ describe('trees REST API works', () => {
                 assert.deepEqual(trees, [aspen, maple, pine]);
             });
     });
+
+    it('removes a tree by id', () => {
+        return request.delete(`/trees/${pine._id}`)
+            .then(res => assert.deepEqual(res.body, { removed: true }));
+    });
+
+    it('returns removed: false if tree not removed', () => {
+        return request.delete(`/trees/${pine._id}`)
+            .then(res => assert.deepEqual(res.body, { removed: false }));
+    });
 });

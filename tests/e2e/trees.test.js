@@ -57,7 +57,7 @@ describe('trees REST API works', () => {
             });
     }
 
-    it('saves a tree', () => {
+    xit('saves a tree', () => {
         return saveTree(pine)
             .then(recTree => {
                 assert.ok(recTree._id);
@@ -65,11 +65,23 @@ describe('trees REST API works', () => {
             });
     });
 
-    it('gets a tree when it exists', () => {
+    xit('gets a tree when it exists', () => {
         return request
             .get(`/trees/${pine._id}`)
             .then(res => res.body)
             .then(tree => assert.deepEqual(tree, pine));
+    });
+    
+    it('returns 404 error if tries to get nonexistent tree', () => {
+        return request
+            .get('/trees/345678901234123412341234')
+            .then(() => {
+                throw new Error('Got 200 code when should be 404');
+            },
+            res => {
+                assert.equal(res.status, 404);
+                assert.ok(res.response.error);
+            });
     });
 
 });

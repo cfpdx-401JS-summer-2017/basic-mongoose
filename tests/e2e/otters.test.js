@@ -67,7 +67,8 @@ describe('otter REST api', () => {
         return saveOtter(benjamin)
             .then(savedOtter => {
                 assert.isOk(savedOtter._id);
-                assert.deepEqual(savedOtter, benjamin);
+                assert.equal(savedOtter.name, benjamin.name);
+                assert.equal(savedOtter.type, benjamin.type);
             });
     });
 
@@ -75,17 +76,20 @@ describe('otter REST api', () => {
         return request
             .get(`/otters/${benjamin._id}`)
             .then(res => res.body)
-            .then(otter => assert.deepEqual(otter, benjamin));
+            .then(otter => {
+                assert.equal(otter.name, benjamin.name);
+                assert.equal(otter.type, benjamin.type);
+            });
     });
 
     it('returns 404 if otter does not exist', () => {
-        return request.get('/otters/58ff9f496aafd447254c29b5').then(
+        return request.get('/otters/58ff9f496aafd447111c29b5').then(
             () => {
-                throw new Error('successful status code not expected');
+                throw new Error('Unexpected Success In Error Test');
             },
             res => {
                 assert.equal(res.status, 404);
-                assert.isOk(res.response.body.error);
+                assert.equal(res.message, 'Not Found');
             }
         );
     });
@@ -98,7 +102,10 @@ describe('otter REST api', () => {
             .then(() => request.get('/otters'))
             .then(res => {
                 const otters = res.body;
-                assert.deepEqual(otters, [benjamin, juju, sonja]);
+                assert.equal(otters[2].name, sonja.name);
+                assert.equal(otters[1].type, juju.type);
+                console.log(otters);
+                assert.equal(otters[0].color, benjamin.color);
             });
     });
 });

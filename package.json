@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha test",
     "test:unit": "mocha test/unit",
+    "test:e2e": "mocha test/e2e",
     "start": "npm test -- -w"
   },
   "repository": {

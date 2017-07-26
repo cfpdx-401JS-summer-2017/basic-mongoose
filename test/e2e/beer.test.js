@@ -80,5 +80,12 @@ describe('beers REST api', () => {
                 assert.deepEqual(savedBeer, stormy);
             });
     });
+
+    it('gets beer if exists', () => {
+        return request
+            .get(`/beers/${stormy._id}`)
+            .then(res => res.body)
+            .then(beer => assert.deepEqual(beer, stormy));
+    });
 });
 

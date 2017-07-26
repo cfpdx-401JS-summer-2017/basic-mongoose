@@ -40,6 +40,38 @@ describe('beer', () => {
             });
     });
     
+    it('beer.style must be of enum type', () => {
+        const beer = new Beer({
+            name: 'Dark and Stormy Night',
+            style: 'red ale',
+            stats: {
+                abv: 5.8,
+                ibu: 54,
+                og: 15
+            },
+            grainBill: [
+                {
+                    name: 'Pale Malt'
+                },
+                {
+                    name: 'Roasted Barley'
+                },
+                {
+                    name: 'Munich Malt'
+                },
+                {
+                    name: 'Chocolate'
+                }
+            ]
+        });
+        return beer.validate()
+            .then(
+                () => { throw new Error('expected validation error');},
+                ({ errors }) => {
+                    assert.equal(errors.style.kind, 'enum');
+                }
+            );
+    });
 
 
 

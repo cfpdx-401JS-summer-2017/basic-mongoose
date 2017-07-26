@@ -5,17 +5,16 @@ chai.use(chaiHttp);
 const assert = chai.assert;
 const connect = require("../lib/connect");
 const url = "mongodb://localhost:27017/mongoosePeople";
+const mongoose = require("../lib/connect");
+const connection = require("mongoose").connection;
 
 describe("mongoose tests", () => {
   const req = chai.request(app);
 
-  // before(() => connect(url));
-  // beforeEach(() => {
-  //   // console.log(connect);
-  //   // req.dropDatabase();
-  // });
+  before(() => mongoose.connect);
+  beforeEach(() => connection.dropDatabase());
 
-  it("model fails validation", () => {}), it("model passes validation", () => {}), it("GET /people", () => {}), it("GET /people/:id", () => {}), it("POST /people", () => {}), it("DELETE /people/:id", () => {
-    // { removed: <result> }
+  it("GET /people", () => {}), it("GET /people/:id", () => {}), it("POST /people", () => {}), it("DELETE /people/:id", () => {
+    // { removed: <result> } T/F
   }), it("PUT /people/:id", () => {}), it("PATCH /people/:id", () => {});
 });

@@ -4,7 +4,7 @@
   "description": "<img src=\"https://cloud.githubusercontent.com/assets/478864/22186847/68223ce6-e0b1-11e6-8a62-0e3edc96725e.png\" width=30> Mongoose Models ===",
   "main": "index.js",
   "scripts": {
-    "test:watch:nodemon": "nodemon --watch src --watch tests --exec 'npm test'",
+    "test:watch:nodemon": "nodemon --watch lib --watch tests/e2e tests/unit --exec 'npm test'",
     "test:watch": "npm test -- -w",
     "test": "mocha tests --reporter mocha-better-spec-reporter",
     "start": "npm run test:watch:nodemon"

@@ -21,6 +21,7 @@ describe('countries REST api', () => {
             .then(({ body }) => {
                 country._id = body._id;
                 country.__v = body.__v;
+                country.cities = body.cities;
                 return body;
             });
     }
@@ -31,7 +32,11 @@ describe('countries REST api', () => {
             let france = {
                 name: 'France',
                 continent: 'Europe',
-                language: 'French'
+                language: 'French',
+                cities: [
+                    { name: 'Paris', visited: false },
+                    { name: 'Lyon', visited: true },
+                    { name: 'Bordeaux', visited: false }]
             };
 
             return save(france)
@@ -50,11 +55,15 @@ describe('countries REST api', () => {
                 {
                     name: 'India',
                     continent: 'Asia',
-                    language: 'Hindi'
+                    language: 'Hindi',
+                    cities: [
+                        { name: 'Mumba', visited: false },
+                        { name: 'Delhi', visited: true }]
                 },{
                     name: 'Scotland',
                     continent: 'Europe',
-                    language: 'Scottish English'
+                    language: 'Scottish English',
+                    cities: [{ name: 'Glasgow', visited: false }]
                 }];
 
             return Promise.all(newCountries.map(save))
@@ -71,7 +80,9 @@ describe('countries REST api', () => {
                 name: 'United States of America',
                 continent: 'North America',
                 language: 'English',
-                cities: []
+                cities: [
+                    { name: 'Portland', visited: true },
+                    { name: 'Seattle', visited: true }]
             };
 
             return save(country)
@@ -83,9 +94,27 @@ describe('countries REST api', () => {
         });
     });
 
-    //TODO: describe('DELETE', () => {
+    describe('DELETE', () => {
 
-    // });
+        it('deletes a country by id', () => {
+            let country = {
+                name: 'Canada',
+                continent: 'North America',
+                language: 'English'
+            };
+
+            return save(country)
+                .then(res => res.body = country)
+                .then(country => request.delete(`/countries/${country._id}`))
+                .then(res => {
+                    // console.log(res.body);
+                    assert.deepEqual(res.body, { removed: true });
+                });
+        });
+
+        //TODO: add test for { removed: false }
+
+    });
 
     //TODO: describe('PUT', () => {
 

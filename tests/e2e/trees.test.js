@@ -50,7 +50,7 @@ describe('trees REST API works', () => {
             .send(tree)
             .then(({ body }) => {
                 tree._id = body._id;
-                tree.__v = body.__id;
+                tree.__v = body.__v;
                 tree.age = body.age;
                 tree.location[0]._id = body.location[0]._id;
                 return tree;
@@ -58,11 +58,18 @@ describe('trees REST API works', () => {
     }
 
     it('saves a tree', () => {
-        return saveTree(maple)
+        return saveTree(pine)
             .then(recTree => {
                 assert.ok(recTree._id);
-                assert.deepEqual(recTree, maple);
+                assert.deepEqual(recTree, pine);
             });
+    });
+
+    it('gets a tree when it exists', () => {
+        return request
+            .get(`/trees/${pine._id}`)
+            .then(res => res.body)
+            .then(tree => assert.deepEqual(tree, pine));
     });
 
 });

@@ -61,5 +61,15 @@ describe('beer', () => {
         return beer.validate();
     });
 
+    it('fails validation when required fields missing', () => {
+        const beer = new Beer();
+        return beer.validate()
+            .then(() => { throw new Error('expected validation error'); },
+            ({errors}) => {
+                assert.ok(errors.name);
+                assert.ok(errors.style);
+            });
+    });
+
 
 });

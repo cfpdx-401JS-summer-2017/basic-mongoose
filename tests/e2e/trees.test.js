@@ -111,6 +111,6 @@ describe('trees REST API works', () => {
     it('updates only a given property of a tree by id--patch', () => {
         return request.put(`/trees/${aspen._id}`)
             .send({ ageEstimate: { min: 75, max: 100 } })
-            .then(res => assert.ok(res.body.age));
+            .then(res => assert.ok(res.body.ageEstimate));
     });
 });

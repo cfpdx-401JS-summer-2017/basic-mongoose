@@ -122,6 +122,14 @@ describe('beers REST api', () => {
                 assert.deepEqual(message, { removed: true });
             });
     });
+
+    it('screams when you try to delete a beer without a valid id', () => {
+        return request.delete('/beers/746353546575775588555564')
+            .then( res => {
+                const message = JSON.parse(res.text);
+                assert.deepEqual(message, { removed: false });
+            });
+    });
 });
 
 

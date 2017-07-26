@@ -58,7 +58,7 @@ describe('beer', () => {
                 }
             ]
         });
-        
+        return beer.validate();
     });
 
 

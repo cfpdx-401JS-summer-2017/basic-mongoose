@@ -3,7 +3,7 @@ const {assert} = require('chai');
 describe('Dragon model', () => {
     it('validates with required fields', () =>{
         const dragon = new Dragon({
-            name: 'Smog',
+            name: 'Smaug',
             color: 'red',
             horde: [
                 {name: 'gold', weight: 100000000},

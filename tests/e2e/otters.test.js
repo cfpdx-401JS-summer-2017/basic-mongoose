@@ -120,5 +120,11 @@ describe('otter REST api', () => {
             });
     });
 
-    
+    it('deletes an otter by id',() => {
+        return request
+            .delete(`/otters/${benjamin._id}`)
+            .then(res => {
+                assert.deepEqual(JSON.parse(res.text), {removed: true});
+            });
+    });
 });

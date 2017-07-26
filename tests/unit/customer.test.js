@@ -6,9 +6,9 @@ describe('Customer model', () => {
         const customer = new Customer({
             name: 'Sally Hampton',
             company: 'ABC Company',
-            tier:
-            { name: 'Bronze' }
-
+            tier: [
+                { name: 'Bronze' }
+            ]
         });
         return customer.validate();
     });

@@ -51,15 +51,17 @@ describe('trees REST API works', () => {
             .then(({ body }) => {
                 tree._id = body._id;
                 tree.__v = body.__id;
-                return body;
+                tree.age = body.age;
+                tree.location[0]._id = body.location[0]._id;
+                return tree;
             });
     }
 
     it('saves a tree', () => {
-        return saveTree(aspen)
+        return saveTree(maple)
             .then(recTree => {
                 assert.ok(recTree._id);
-                assert.deepEqual(recTree, aspen);
+                assert.deepEqual(recTree, maple);
             });
     });
 

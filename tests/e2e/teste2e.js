@@ -89,9 +89,20 @@ describe('dragons REST api', ()=> {
         return request.put(`/dragons/${smaug._id}`)
             .send(drogo)
             .then(res => {
-                console.log('res.body._id =>',res.body._id);
                 assert.isOk(res.body._id);
-                assert.deepEqual(res.horde, drogo.horde);
+                assert.deepEqual(res.body.horde.name, drogo.horde.name);
+            });
+    });
+    it('deletes dragon by id', () =>{
+        return request.delete(`/dragons/${scatha._id}`)
+            .then(res => {
+                assert.deepEqual(JSON.parse(res.text), { removed: true });
+            });
+    });
+    it('fails to delete dragon by id', () =>{
+        return request.delete(`/dragons/${scatha._id}`)
+            .then(res => {
+                assert.deepEqual(JSON.parse(res.text), { removed: false });
             });
     });
 });

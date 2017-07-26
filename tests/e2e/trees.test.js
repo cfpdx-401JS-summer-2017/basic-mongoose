@@ -99,12 +99,18 @@ describe('trees REST API works', () => {
             .then(res => assert.deepEqual(res.body, { removed: false }));
     });
 
-    it('updates a property for a tree by id', () => {
+    it('updates a tree by id', () => {
         return request.put(`/trees/${aspen._id}`)
             .send({ locations: ['Eugene', 'Bend'] })
             .then(() => request.get(`/trees/${aspen._id}`))
             .then(res => {
                 assert.deepEqual(res.body.locations, ['Eugene', 'Bend']);
             });
+    });
+
+    it('updates only a given property of a tree by id--patch', () => {
+        return request.put(`/trees/${aspen._id}`)
+            .send({ ageEstimate: { min: 75, max: 100 } })
+            .then(res => assert.ok(res.body.age));
     });
 });

@@ -104,7 +104,7 @@ describe('trees REST API works', () => {
             .send({ locations: ['Eugene', 'Bend'] })
             .then(() => request.get(`/trees/${aspen._id}`))
             .then(res => {
-                assert.equal(res.body.locations, ['Eugene', 'Bend']);
+                assert.deepEqual(res.body.locations, ['Eugene', 'Bend']);
             });
     });
 });

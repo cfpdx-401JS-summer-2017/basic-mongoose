@@ -99,5 +99,21 @@ describe('beers REST api', () => {
                 assert.equal(res.message, 'Not Found');
             });
     });
+
+    it('returns a list of beers from database', () => {
+        return Promise.all([
+            saveBeer(soPale),
+            saveBeer(pilz)
+        ])
+            .then(() => {
+                return request.get('/beers');
+            })
+            .then(res => {
+                let beers = res.body;
+                assert.equal(beers.length, 3);
+                assert.equal(beers[0].name, stormy.name);
+            });
+    });
 });
+
 

@@ -98,4 +98,13 @@ describe('trees REST API works', () => {
         return request.delete(`/trees/${pine._id}`)
             .then(res => assert.deepEqual(res.body, { removed: false }));
     });
+
+    it('updates a property for a tree by id', () => {
+        return request.put(`/trees/${aspen._id}`)
+            .send({ locations: ['Eugene', 'Bend'] })
+            .then(() => request.get(`/trees/${aspen._id}`))
+            .then(res => {
+                assert.equal(res.body.locations, ['Eugene', 'Bend']);
+            });
+    });
 });

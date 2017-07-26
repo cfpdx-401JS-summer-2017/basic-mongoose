@@ -114,6 +114,8 @@ describe('beers REST api', () => {
                 assert.equal(beers[0].name, stormy.name);
             });
     });
+
+    
 });
 
 

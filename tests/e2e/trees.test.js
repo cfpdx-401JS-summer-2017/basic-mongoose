@@ -57,7 +57,7 @@ describe('trees REST API works', () => {
             });
     }
 
-    xit('saves a tree', () => {
+    it('saves a tree', () => {
         return saveTree(pine)
             .then(recTree => {
                 assert.ok(recTree._id);
@@ -65,7 +65,7 @@ describe('trees REST API works', () => {
             });
     });
 
-    xit('gets a tree when it exists', () => {
+    it('gets a tree when it exists', () => {
         return request
             .get(`/trees/${pine._id}`)
             .then(res => res.body)
@@ -84,4 +84,16 @@ describe('trees REST API works', () => {
             });
     });
 
+    it('gets all trees', () => {
+        return Promise.all([
+            saveTree(pine),
+            saveTree(aspen),
+            saveTree(maple)
+        ])
+            .then(() => request.get('/trees'))
+            .then(res => {
+                const trees = res.body;
+                assert.deepEqual(trees, [pine, aspen, maple]);
+            });
+    });
 });

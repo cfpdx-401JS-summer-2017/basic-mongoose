@@ -130,6 +130,18 @@ describe('beers REST api', () => {
                 assert.deepEqual(message, { removed: false });
             });
     });
+
+    it('updates an existing beer', () => {
+        return request.put(`/beers/${pilz._id}`)
+            .send({ name: 'fucken luv dis' })
+            .then( () => {
+                return request.get(`/beers/${pilz._id}`);
+            })
+            .then(res => {
+                const updatedBeer = res.body;
+                assert.equal(updatedBeer.name, 'fucken luv dis');
+            });
+    });
 });
 
 

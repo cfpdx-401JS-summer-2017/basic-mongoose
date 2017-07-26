@@ -6,7 +6,7 @@ describe('beer', () => {
     it('validates with required fields', () => {
         const beer = new Beer({
             name: 'Citra Ass Down',
-            style: 'Imperial IPA',
+            style: 'imperial ipa',
             stats: {
                 abv: 8.2,
                 ibu: 68,
@@ -25,37 +25,6 @@ describe('beer', () => {
                 {
                     name: 'Wheat Malt'
                 }
-            ],
-            hopSchedule: [
-                {
-                    name: 'Citra',
-                    alpha: 12,
-                    type: 'whole',
-                    use: {
-                        designation: 'boil',
-                        time: 60,
-                        timeUnit: 'min'
-                    }
-                },
-                {
-                    name: 'Columbus',
-                    type: 'whole',
-                    use: {
-                        designation: 'boil',
-                        time: 60,
-                        timeUnit: 'min'
-                    }
-                },
-                {
-                    name: 'Centennial',
-                    alpha: 16,
-                    type: 'pellets',
-                    use: {
-                        designation: 'Aroma',
-                        time: 10,
-                        timeUnit: 'min'
-                    }
-                }
             ]
         });
         return beer.validate();
@@ -70,6 +39,8 @@ describe('beer', () => {
                 assert.ok(errors.style);
             });
     });
+    
+
 
 
 });

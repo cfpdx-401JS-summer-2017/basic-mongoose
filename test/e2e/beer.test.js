@@ -27,8 +27,8 @@ describe('beers REST api', () => {
             og: 15
         },
         grainBill: [
-            { name: 'Pale Malt'}, {name: 'Roasted Barley'}, 
-            {name: 'Munich Malt'}, {name: 'Chocolate'}
+            { name: 'Pale Malt' }, { name: 'Roasted Barley' },
+            { name: 'Munich Malt' }, { name: 'Chocolate' }
         ]
     };
 
@@ -41,8 +41,8 @@ describe('beers REST api', () => {
             og: 12
         },
         grainBill: [
-            { name: 'Pilsner Malt'}, {name: 'Munich Malt'}, 
-            {name: 'Crystal 20'}
+            { name: 'Pilsner Malt' }, { name: 'Munich Malt' },
+            { name: 'Crystal 20' }
         ]
     };
 
@@ -55,8 +55,8 @@ describe('beers REST api', () => {
             og: 14
         },
         grainBill: [
-            { name: 'Pale Malt'}, {name: 'Munich Malt'}, 
-            {name: 'Crystal 80'}, {name: 'Vienna Malt'}
+            { name: 'Pale Malt' }, { name: 'Munich Malt' },
+            { name: 'Crystal 80' }, { name: 'Vienna Malt' }
         ]
     };
 
@@ -86,6 +86,18 @@ describe('beers REST api', () => {
             .get(`/beers/${stormy._id}`)
             .then(res => res.body)
             .then(beer => assert.deepEqual(beer, stormy));
+    });
+
+    it('returns 404 if beer doesnt exist', () => {
+        return request
+            .get('/beers/746353546575775588555564')
+            .then(() => {
+                throw new Error('successful status code not expected');
+            },
+            res => {
+                assert.equal(res.status, 404);
+                assert.equal(res.message, 'Not Found');
+            });
     });
 });
 

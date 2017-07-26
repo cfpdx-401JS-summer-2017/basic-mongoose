@@ -70,7 +70,8 @@ describe('countries REST api', () => {
             let country = {
                 name: 'United States of America',
                 continent: 'North America',
-                language: 'English'
+                language: 'English',
+                cities: []
             };
 
             return save(country)

@@ -13,29 +13,7 @@ const request = chai.request(app);
 
 describe('countries REST api', () => {
 
-    before(() => connection.dropDatabase());
-
-    // it('works', () => {
-    //     assert.ok('did this work?');
-    // });
-
-    const france = {
-        name: 'France',
-        continent: 'Europe',
-        language: 'French'
-    };
-
-    const india = {
-        name: 'India',
-        continent: 'Asia',
-        language: 'Hindi'
-    };
-
-    const scotland = {
-        name: 'Scotland',
-        continent: 'Europe',
-        language: 'Scottish English'
-    };
+    beforeEach(() => connection.dropDatabase());
 
     function save(country) {
         return request.post('/countries')
@@ -48,12 +26,68 @@ describe('countries REST api', () => {
     }
     
     describe('POST', () => {
+    
         it('saves a country', () => {
+            let france = {
+                name: 'France',
+                continent: 'Europe',
+                language: 'French'
+            };
+
             return save(france)
                 .then(saved => {
+                    france = saved;
                     assert.deepEqual(saved, france);
                 });
         });
+    
     });
+
+    describe('GET', () => {
+        
+        it('gets all countries', () => {
+            let newCountries = [
+                {
+                    name: 'India',
+                    continent: 'Asia',
+                    language: 'Hindi'
+                },{
+                    name: 'Scotland',
+                    continent: 'Europe',
+                    language: 'Scottish English'
+                }];
+
+            return Promise.all(newCountries.map(save))
+                .then(saved => newCountries = saved)
+                .then(() => request.get('/countries'))
+                .then(res => {
+                    const saved = res.body.sort((a, b) => a._id > b._id ? 1 : -1 );
+                    assert.deepEqual(saved, newCountries);
+                });
+        });
+
+        it('gets a country by id', () => {
+            let country = {
+                name: 'United States of America',
+                continent: 'North America',
+                language: 'English'
+            };
+
+            return save(country)
+                .then(res => res.body = country)
+                .then(country => request.get(`/countries/${country._id}`))
+                .then(res => {
+                    assert.deepEqual(res.body, country);
+                });
+        });
+    });
+
+    //TODO: describe('DELETE', () => {
+
+    // });
+
+    //TODO: describe('PUT', () => {
+
+    // });
 
 });

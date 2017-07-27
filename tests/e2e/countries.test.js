@@ -107,12 +107,16 @@ describe('countries REST api', () => {
                 .then(res => res.body = country)
                 .then(country => request.delete(`/countries/${country._id}`))
                 .then(res => {
-                    // console.log(res.body);
                     assert.deepEqual(res.body, { removed: true });
                 });
         });
 
-        //TODO: add test for { removed: false }
+        it('deletes a country by id and returns false', () => {
+            return request.delete('/countries/bad8fee7896ca0056933b0b9')
+                .then(res => {
+                    assert.deepEqual(res.body, { removed: false });
+                });
+        });
 
     });
 

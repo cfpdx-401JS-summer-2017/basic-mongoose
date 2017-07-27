@@ -120,8 +120,25 @@ describe('countries REST api', () => {
 
     });
 
-    //TODO: describe('PUT', () => {
+    describe('PUT', () => {
 
-    // });
+        it('updates a country', () => {
+            let country = {
+                name: 'Brazil',
+                continent: 'North America',
+                language: 'Portuguese'
+            };
+
+            let update = { continent: 'South America' };
+
+            return save(country)
+                .then(res => res.body = country)
+                .then(country => request.put(`/countries/${country._id}`).send(update))
+                .then(res => {
+                    assert.deepEqual(res.body.continent, update.continent);
+                });
+        });
+
+    });
 
 });

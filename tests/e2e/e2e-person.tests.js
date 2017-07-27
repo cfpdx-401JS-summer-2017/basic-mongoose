@@ -5,6 +5,7 @@ const chaiHttp = require("chai-http");
 const mongoose = require("../../lib/connect");
 const connection = require("mongoose").connection;
 const connect = require("mongoose").connect;
+const seedPeople = require('../testdata/seedPeople');
 
 chai.use(chaiHttp);
 
@@ -13,24 +14,6 @@ describe("mongoose tests", () => {
 
   before(() => connect);
   beforeEach(() => connection.dropDatabase());
-
-  const seedPeople = [
-    { name: 'elizabeth', nose: 'tiny', heightInInches:50, likesRollerCoasters:true },
-    { name: 'joann', job: 'web dev' },
-    { name: 'elton', talent: 'piano', likesRollerCoasters:null},
-    {
-      name: 'oliver', quirks: [
-        { annoying: "clips toenails on transit" },
-        { healthy: "always buys rounds" }
-      ]
-    },
-    { name: "james", hobby: "collects subway tokens from around the world", heightInInches: 64},
-    { name: "larry", quirks:[
-      {odd: "starred in a cheesy computer game in the 80s"}
-    ], likesRollerCoasters: true,
-      heightInInches: 64
-    }
-  ]
 
   function save(person) {
     return req.post('/people')
@@ -46,6 +29,7 @@ describe("mongoose tests", () => {
       return save(person)
     }))
     .then(res => {
+
       for(let i = 0; i < res.length; i++){
 
      if (res[i].success){
@@ -54,12 +38,14 @@ describe("mongoose tests", () => {
       console.log(res[i].personName +' could not be saved to the database. '+res[i].message);
       }
     }
-          return req.get("/people")
+          return req.get("/people");
 
       })
 
       .then(data => {
         console.log(data.text);
+
+        // assert.equal(data.text.count, 1)
       })
   }),
 

@@ -47,5 +47,8 @@ describe('cars REST API', () => {
     it('GETs ')
     it('returns 404 if unicorn does not exist', () => {
        return request.get('/cars/')
+       .then(() => {
+           throw err
+       })
    }) 
 });

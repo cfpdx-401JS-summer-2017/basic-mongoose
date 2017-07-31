@@ -1,0 +1,39 @@
+{
+  "name": "basic-mongoose",
+  "version": "1.0.0",
+  "description": "<img src=\"https://cloud.githubusercontent.com/assets/478864/22186847/68223ce6-e0b1-11e6-8a62-0e3edc96725e.png\" width=30> Mongoose Models\r ===",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests --recursive",
+    "dev": "nodemon --exec 'npm run test -- -W'",
+    "test:e2e": "mocha tests/e2e",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jshabani/basic-mongoose.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jshabani/basic-mongoose/issues"
+  },
+  "homepage": "https://github.com/jshabani/basic-mongoose#readme",
+  "devDependencies": {
+    "body-parser": "^1.17.2",
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "eslint": "^4.3.0",
+    "mocha": "^3.4.2"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "mongodb": "^2.2.30",
+    "mongoose": "^4.11.4",
+    "nodemon": "^1.11.0"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  }
+}

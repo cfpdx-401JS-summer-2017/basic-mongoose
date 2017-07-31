@@ -20,15 +20,20 @@
   },
   "homepage": "https://github.com/jshabani/basic-mongoose#readme",
   "devDependencies": {
+    "body-parser": "^1.17.2",
     "chai": "^4.1.0",
     "chai-http": "^3.0.0",
     "eslint": "^4.3.0",
     "mocha": "^3.4.2"
   },
   "dependencies": {
-    "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "mongodb": "^2.2.30",
+    "mongoose": "^4.11.4",
     "nodemon": "^1.11.0"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
   }
 }

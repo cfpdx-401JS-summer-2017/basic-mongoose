@@ -2,7 +2,7 @@ const app = require('./lib/app');
 const http = require('http');
 
 const connect = require('./lib/connect');
-const dbUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/beer-recipes';
+const dbUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/beers';
 connect(dbUri);
 
 const server = http.createServer(app);

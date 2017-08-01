@@ -20,9 +20,12 @@
   },
   "homepage": "https://github.com/jchurchman/basic-mongoose#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
-    "mongoose": "^4.11.4"
+    "jsonwebtoken-promisified": "^1.0.3",
+    "mongoose": "^4.11.4",
+    "morgan": "^1.8.2"
   },
   "devDependencies": {
     "chai": "^4.1.0",

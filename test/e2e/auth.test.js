@@ -2,8 +2,8 @@ const db = require('./helpers/db');
 const request = require('./helpers/request');
 const { assert } = require('chai');
 
-describe('auth', () => {
-    before(() => db.drop);
+describe.only('auth', () => {
+    before(db.drop);
 
     const user = {
         email: 'you@me.com',
@@ -42,7 +42,7 @@ describe('auth', () => {
                 .send(user)
                 .then(res => {
                     token = res.body.token;
-                    assert.ok(token = res.body.token);
+                    assert.ok(res.body.token);
                 })
                 .catch(console.log)
         );
@@ -67,7 +67,57 @@ describe('auth', () => {
             badRequest('/api/auth/signin', { email: user.email, password: 'bad' }, 401, 'Invalid Login')
         );
 
-        
-    }
-    );
+        it('signin', () =>
+            request
+                .post('/api/auth/signin')
+                .send(user)
+                .then(res => assert.ok(res.body.token))
+        );
+
+        it('token is invalid', () =>
+            request
+                .get('/api/auth/verify')
+                .set('Authorization', 'bad token')
+                .then(
+                    () => { throw new Error('success response not expected'); },
+                    (res) => { assert.equal(res.status, 401); }
+                )
+        );
+
+        it('token is valid', () => 
+            request
+                .get('/api/auth/verify')
+                .set('Authorization', token)
+                .then(res => assert.ok(res.body))
+        );
+    });
+
+    describe('unauthorized', () => {
+
+        it('401 with no token', () => {
+            return request
+                .get('/api/beers')
+                .then(
+                    () => { throw new Error('status should not be 200'); },
+                    res => {
+                        assert.equal(res.status, 401);
+                        assert.equal(res.response.body.error, 'No Authorization Found');
+                    }
+                );
+        });
+
+        it('403 with invalid token', () => {
+            return request
+                .get('/api/beers')
+                .set('Authorization', 'badtoken')
+                .then(
+                    () => { throw new Error('status should not be 200'); },
+                    res => {
+                        assert.equal(res.status, 401);
+                        assert.equal(res.response.body.error, 'Authorization Failed');
+                    }
+                );
+        });
+
+    });
 });

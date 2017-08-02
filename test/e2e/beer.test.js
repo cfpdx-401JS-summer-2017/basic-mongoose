@@ -2,7 +2,7 @@ const db = require('./helpers/db');
 const request = require('./helpers/request');
 const { assert } = require('chai');
 
-describe.skip('beers REST api', () => {
+describe('beers REST api', () => {
     before(() => db.drop);
 
     const stormy = {

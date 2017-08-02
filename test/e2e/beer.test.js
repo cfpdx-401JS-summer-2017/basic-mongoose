@@ -5,6 +5,10 @@ const { assert } = require('chai');
 describe('beers REST api', () => {
     before(() => db.drop);
 
+    let token = null;
+
+    before( () => db.getToken().then(t => token = t));
+
     const stormy = {
         name: 'Dark and Stormy Night',
         style: 'stout',
@@ -49,6 +53,7 @@ describe('beers REST api', () => {
 
     function saveBeer(beer) {
         return request.post('/api/beers')
+            .set('Authorization', token)
             .send(beer)
             .then(({ body }) => {
                 beer._id = body._id;
@@ -71,6 +76,7 @@ describe('beers REST api', () => {
     it('gets beer if exists', () => {
         return request
             .get(`/api/beers/${stormy._id}`)
+            .set('Authorization', token)
             .then(res => res.body)
             .then(beer => assert.deepEqual(beer, stormy));
     });
@@ -78,6 +84,7 @@ describe('beers REST api', () => {
     it('returns 404 if beer doesnt exist', () => {
         return request
             .get('/api/beers/746353546575775588555564')
+            .set('Authorization', token)
             .then(() => {
                 throw new Error('successful status code not expected');
             },
@@ -93,7 +100,8 @@ describe('beers REST api', () => {
             saveBeer(pilz)
         ])
             .then(() => {
-                return request.get('/api/beers');
+                return request.get('/api/beers')
+                    .set('Authorization', token);
             })
             .then(res => {
                 let beers = res.body;
@@ -104,6 +112,7 @@ describe('beers REST api', () => {
 
     it('deletes a beer from the db', () => {
         return request.delete(`/api/beers/${soPale._id}`)
+            .set('Authorization', token)
             .then(res => {
                 const message = JSON.parse(res.text);
                 assert.deepEqual(message, { removed: true });
@@ -112,6 +121,7 @@ describe('beers REST api', () => {
 
     it('screams when you try to delete a beer without a valid id', () => {
         return request.delete('/api/beers/746353546575775588555564')
+            .set('Authorization', token)
             .then( res => {
                 const message = JSON.parse(res.text);
                 assert.deepEqual(message, { removed: false });
@@ -120,9 +130,11 @@ describe('beers REST api', () => {
 
     it('updates an existing beer', () => {
         return request.put(`/api/beers/${pilz._id}`)
+            .set('Authorization', token)
             .send({ name: 'fucken luv dis' })
             .then( () => {
-                return request.get(`/api/beers/${pilz._id}`);
+                return request.get(`/api/beers/${pilz._id}`)
+                    .set('Authorization', token);
             })
             .then(res => {
                 const updatedBeer = res.body;

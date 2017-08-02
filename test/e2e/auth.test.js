@@ -2,7 +2,7 @@ const db = require('./helpers/db');
 const request = require('./helpers/request');
 const { assert } = require('chai');
 
-describe.only('auth', () => {
+describe('auth', () => {
     before(db.drop);
 
     const user = {

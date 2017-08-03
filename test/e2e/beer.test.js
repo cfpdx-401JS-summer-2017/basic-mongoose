@@ -1,22 +1,13 @@
-const chai = require('chai');
-const assert = chai.assert;
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-
-process.env.MONGODB_URI = 'mongodb://localhost:27017/beers-test';
-
-require('../../lib/connect');
-
-const connection = require('mongoose').connection;
-
-const app = require('../../lib/app');
-
-const request = chai.request(app);
+const db = require('./helpers/db');
+const request = require('./helpers/request');
+const { assert } = require('chai');
 
 describe('beers REST api', () => {
-    before(() => {
-        connection.dropDatabase();
-    });
+    before(() => db.drop);
+
+    let token = null;
+
+    before( () => db.getToken().then(t => token = t));
 
     const stormy = {
         name: 'Dark and Stormy Night',
@@ -61,7 +52,8 @@ describe('beers REST api', () => {
     };
 
     function saveBeer(beer) {
-        return request.post('/beers')
+        return request.post('/api/beers')
+            .set('Authorization', token)
             .send(beer)
             .then(({ body }) => {
                 beer._id = body._id;
@@ -83,14 +75,16 @@ describe('beers REST api', () => {
 
     it('gets beer if exists', () => {
         return request
-            .get(`/beers/${stormy._id}`)
+            .get(`/api/beers/${stormy._id}`)
+            .set('Authorization', token)
             .then(res => res.body)
             .then(beer => assert.deepEqual(beer, stormy));
     });
 
     it('returns 404 if beer doesnt exist', () => {
         return request
-            .get('/beers/746353546575775588555564')
+            .get('/api/beers/746353546575775588555564')
+            .set('Authorization', token)
             .then(() => {
                 throw new Error('successful status code not expected');
             },
@@ -106,7 +100,8 @@ describe('beers REST api', () => {
             saveBeer(pilz)
         ])
             .then(() => {
-                return request.get('/beers');
+                return request.get('/api/beers')
+                    .set('Authorization', token);
             })
             .then(res => {
                 let beers = res.body;
@@ -116,7 +111,8 @@ describe('beers REST api', () => {
     });
 
     it('deletes a beer from the db', () => {
-        return request.delete(`/beers/${soPale._id}`)
+        return request.delete(`/api/beers/${soPale._id}`)
+            .set('Authorization', token)
             .then(res => {
                 const message = JSON.parse(res.text);
                 assert.deepEqual(message, { removed: true });
@@ -124,7 +120,8 @@ describe('beers REST api', () => {
     });
 
     it('screams when you try to delete a beer without a valid id', () => {
-        return request.delete('/beers/746353546575775588555564')
+        return request.delete('/api/beers/746353546575775588555564')
+            .set('Authorization', token)
             .then( res => {
                 const message = JSON.parse(res.text);
                 assert.deepEqual(message, { removed: false });
@@ -132,10 +129,12 @@ describe('beers REST api', () => {
     });
 
     it('updates an existing beer', () => {
-        return request.put(`/beers/${pilz._id}`)
+        return request.put(`/api/beers/${pilz._id}`)
+            .set('Authorization', token)
             .send({ name: 'fucken luv dis' })
             .then( () => {
-                return request.get(`/beers/${pilz._id}`);
+                return request.get(`/api/beers/${pilz._id}`)
+                    .set('Authorization', token);
             })
             .then(res => {
                 const updatedBeer = res.body;

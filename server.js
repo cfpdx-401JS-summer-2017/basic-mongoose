@@ -1,13 +1,14 @@
+const app = require('./lib/app');
 const http = require('http');
 
-require('./lib/connect');
-
-const app = require('./lib/app');
+const connect = require('./lib/connect');
+const dbUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/beers';
+connect(dbUri);
 
 const server = http.createServer(app);
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 server.listen(port, () => {
-    console.log('server up and running on port:', server.address().port); //eslint-disable-line
+    console.log('server up and running on port:', server.address()); //eslint-disable-line
 });

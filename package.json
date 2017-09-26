@@ -8,7 +8,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "nodemon --exec 'mocha tests --recursive -w'",
+    "test": "mocha tests --recursive",
     "dev": "nodemon --exec 'npm run test -- -w' ",
     "test:unit": "mocha tests/unit",
     "dev:unit": "nodemon --exec 'npm run test/unit'",

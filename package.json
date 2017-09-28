@@ -6,7 +6,7 @@
   "scripts": {
     "test:watch:nodemon": "nodemon --watch lib --watch tests --exec 'npm test'",
     "test:watch": "npm test -- -w",
-    "test": "mocha tests --recursive --reporter mocha-better-spec-reporter",
+    "test": "mocha tests --recursive",
     "start": "npm run test:watch:nodemon"
   },
   "repository": {
@@ -26,7 +26,6 @@
     "chai-http": "^3.0.0",
     "express": "^4.15.3",
     "mocha": "^3.4.2",
-    "mocha-better-spec-reporter": "^3.1.0",
     "mongoose": "^4.11.4"
   },
   "dependencies": {

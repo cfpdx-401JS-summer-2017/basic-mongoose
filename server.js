@@ -1,13 +1,12 @@
-const http = require("http");
-// this will cause mongoose to make the db connection
-require("./lib/connect");
-const app = require("./lib/app");
-
+/* eslint no-console: "off" */
+const app = require('./lib/app');
+const connect = require('./lib/helpers/connect');
+const http = require('http');
+// const dbUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/basic-mongoose';
+const port = process.env.PORT || 3001;
 const server = http.createServer(app);
-
-const port = 3000;
+// connect(dbUri);
 
 server.listen(port, () => {
-  // eslint-disable-next-line
-  console.log("server up and running on", server.address().port);
+    console.log('server running on', server.address());
 });

@@ -1,58 +1,59 @@
-const app = require("../../lib/app");
-const chai = require("chai");
+const chai = require('chai');
 const assert = chai.assert;
-const chaiHttp = require("chai-http");
-const mongoose = require("../../lib/connect");
-const connection = require("mongoose").connection;
-const connect = require("mongoose").connect;
+const connect = require('../../lib/helpers/connect');
+const connection = require('mongoose').connection;
+const req = require('../../lib/helpers/request');
+const db = require('../../lib/helpers/db');
 const seedPeople = require('../testdata/seedPeople');
 
-chai.use(chaiHttp);
+describe('e2e person tests', () => {
+  before(() => {
+    connect();
+    db.drop();
+  });
 
-describe("mongoose tests", () => {
-  const req = chai.request(app);
-
-  before(() => connect);
-  beforeEach(() => connection.dropDatabase());
-
-  function save(person) {
-    return req.post('/people')
-      .send(person)
-      .then(res => {
-        // console.log('7:');
-        return JSON.parse(res.text);
-      });
-  };
-
-  it.only("GET /people", () => {
-    return Promise.all(seedPeople.map(person => {
-      return save(person)
-    }))
-    .then(res => {
-
-      for(let i = 0; i < res.length; i++){
-
-     if (res[i].success){
-        console.log('Success!')
-      } else {
-      console.log(res[i].personName +' could not be saved to the database. '+res[i].message);
-      }
+  it('POST /people', async () => {
+    for (let i = 0; i < seedPeople.length; i++) {
+      await req
+        .post('/people')
+        .send(seedPeople[i])
+        .then(user => {
+          assert.hasAnyKeys(user.body, ['code', '_id']);
+        })
+        .catch();
     }
-          return req.get("/people");
-
-      })
-
-      .then(data => {
-        console.log(data.text);
-
-        // assert.equal(data.text.count, 1)
-      })
+  });
+  it('GET /people', async () => {
+    const foundPeople = await req.get('/people');
+    assert.lengthOf(foundPeople.body, 2);
   }),
-
-
-it("GET /people/:id", () => {}), it("POST /people", () => {}), it("DELETE /people/:id", () => {
-    // { removed: <result> } T/F
-  }), it("PUT /people/:id", () => {}), it("PATCH /people/:id", () => {});
+    it('GET /people/:id', async () => {
+      const getOne = await req.get('/people');
+      const id = getOne.body[0]._id;
+      const getOneById = await req.get(`/people/${id}`);
+      assert(getOne.body[0].name, getOneById.body.name);
+    }),
+    it('PUT /people/:id', async () => {
+      const getOne = await req.get('/people');
+      const id = getOne.body[0]._id;
+      const updatedUser = await req
+        .put(`/people/${id}`)
+        .send({
+          name: 'larry jones',
+          likesRollerCoasters: true,
+          heightInInches: 90
+        });
+      assert.equal(updatedUser.body.name, 'larry jones');
+      assert.notEqual(
+        updatedUser.body.likesRollerCoasters,
+        getOne.body[0].likesRollerCoasters
+      );
+    }),
+    it('DELETE /people/:id', async () => {
+      const getOne = await req.get('/people');
+      const id = getOne.body[0]._id;
+      const deleted = await req.delete(`/people/${id}`);
+      assert.doesNotHaveAnyKeys(deleted.body);
+      assert.isEmpty(deleted.body);
+    });
 });
-
-// findById then update actually does a patch

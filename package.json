@@ -1,0 +1,34 @@
+{
+  "name": "basic-mongoose",
+  "version": "1.0.0",
+  "description":
+    "<img src=\"https://cloud.githubusercontent.com/assets/478864/22186847/68223ce6-e0b1-11e6-8a62-0e3edc96725e.png\" width=30> Mongoose Models ===",
+  "main": "index.js",
+  "scripts": {
+    "test:watch:nodemon": "nodemon --watch lib --watch tests --exec 'npm test'",
+    "test:watch": "npm test -- -w",
+    "test": "mocha tests --recursive",
+    "start": "npm run test:watch:nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wbeck32/basic-mongoose.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wbeck32/basic-mongoose/issues"
+  },
+  "homepage": "https://github.com/wbeck32/basic-mongoose#readme",
+  "devDependencies": {},
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "express": "^4.15.3",
+    "mocha": "^3.4.2",
+    "mongoose": "^4.11.4",
+    "morgan": "^1.9.0",
+    "superagent": "^3.6.0"
+  }
+}

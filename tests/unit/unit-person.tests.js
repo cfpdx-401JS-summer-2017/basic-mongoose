@@ -1,8 +1,5 @@
 const Person = require('../../lib/models/Person');
 const { assert } = require('chai');
-// const mongoose = require('../../lib/connect');
-// mongoose.Promise = require('bluebird');
-// { assert } is 'destructuring' and in this case refers to the assert property of chai
 
 describe('person model tests', () => {
   it('model fails validation', () => {
